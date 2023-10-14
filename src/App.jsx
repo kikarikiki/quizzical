@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.scss'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main>
+        {/* Logo Container */}
+        <header>
+          <img src="" alt="" className="logo"/>
+        </header>
+        {/* Quiz Container */}
+        <div className="quiz-container">
+          {/* Game Details */}
+          <div className="game-details-container">
+              <h1>Score : <span id="player-score"></span> / 10</h1>
+              <h1> Question : <span id="question-number"></span> / 10</h1>
+          </div>
+          {/* Questions Container */}
+          <div className="deco-lines question-container">
+              <h1 id="display-question" className='box-decoration'>Question Example</h1>
+          </div>
+          {/* Answers Container */}
+          <ul className='answers-container'>
+            <li className='deco-lines'><span className='box-decoration'>1</span></li>
+            <li className='deco-lines'><span className='box-decoration'>2</span></li>
+            <li className='deco-lines'><span className='box-decoration'>3</span></li>
+            <li className='deco-lines'><span className='box-decoration'>4</span></li>
+          </ul>
+          <div className="next-btn-container">
+              <a href="#">Next Question</a>
+          </div>
+        </div>
+      </main>
     </>
   )
 }
-
-export default App
