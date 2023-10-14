@@ -7,7 +7,8 @@ export default function App() {
       <main>
         {/* Logo Container */}
         <header>
-          <img src="" alt="" className="logo"/>
+          <h1>Quizzical</h1>
+          <img src="./src/assets/react.svg" alt="" className="logo"/>
         </header>
         {/* Quiz Container */}
         <div className="quiz-container">
@@ -22,10 +23,10 @@ export default function App() {
           </div>
           {/* Answers Container */}
           <ul className='answers-container'>
-            <li className='deco-lines'><span className='box-decoration'>1</span></li>
-            <li className='deco-lines'><span className='box-decoration'>2</span></li>
-            <li className='deco-lines'><span className='box-decoration'>3</span></li>
-            <li className='deco-lines'><span className='box-decoration'>4</span></li>
+            <li className='deco-lines'><span className='box-decoration'>Option 1</span></li>
+            <li className='deco-lines'><span className='box-decoration'>Option 2</span></li>
+            <li className='deco-lines'><span className='box-decoration'>Option 3</span></li>
+            <li className='deco-lines'><span className='box-decoration'>Option 4</span></li>
           </ul>
           <div className="next-btn-container">
               <a href="#">Next Question</a>

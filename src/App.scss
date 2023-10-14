@@ -4,15 +4,10 @@
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
   font-family: 'Montserrat', serif;
   color: #fff;
 }
-
 
 main {
   width: 100%;
@@ -25,11 +20,30 @@ main {
 }
 
 header {
+  margin-top: 60px;
+  position: relative;
+  h1 {
+    font-size: 4rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    height: 5rem;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 0px 3px 6px rgba(0,7,35,0.7);
+    letter-spacing: 0.2rem;
+  }
   .logo {
-    width: 300px;
-    height: 300px;
-    border: 1px solid #000;
+    width: 280px;
+    height: 280px;
+    border: 3px solid #fff;
     border-radius: 50%;
+    background-color: #000723;
+    -webkit-box-shadow: 0px 0px 32px 15px rgba(67,215,244,0.75);
+    box-shadow: 0px 0px 32px 15px rgba(67,215,244,0.75);
+    padding: 16px;
   }
 }
 
@@ -64,6 +78,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    display: none; // DISPLAY NONE FOR NOW
     h1{
       font-size: 1.2rem;
     }
@@ -84,43 +99,17 @@ header {
       text-align: center;
       padding: 20px 10px;
       border: 2px ridge #fff;
-   }
-  }
-
-  .answers-container{
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    li {
-      width: 100%;
-      list-style: none;
-      margin: 6px 0;
-      cursor: pointer;
-
-      span {
-        border: 2px ridge #fff;
-        padding: 10px 0;
-        width: 80%;
-        display: block;
-        margin: 0 auto;
-        text-align: center;
-      }
-    }
-    li:hover {
-    }
-
-    h1{
-      font-size: 1.1rem;
-      text-align: center;
-      padding: 3px;
+      color: #FEC355;
    }
   }
 }
 
 .answers-container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   :nth-child(1) {
     :before {
@@ -148,7 +137,18 @@ header {
   }
 
   li {
+    width: 100%;
+    list-style: none;
+    margin: 6px 0;
+    cursor: pointer;
+
     span {
+      border: 2px ridge #fff;
+      padding: 10px 0;
+      width: 80%;
+      display: block;
+      margin: 0 auto;
+      text-align: center;
       background-color: rgb(2,89,128);
       background: linear-gradient(0deg, rgba(2,89,128,1) 0%, rgba(2,41,83,1) 19%, rgba(2,11,55,1) 34%, rgba(2,11,55,1) 63%, rgba(2,41,83,1) 85%, rgba(2,89,128,1) 100%);
       box-shadow: inset 0 0 0.25em #000723;
@@ -164,9 +164,15 @@ header {
       }
     }
   }
+
+  h1 {
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 3px;
+  }
 }
 
-.next-btn-container{
+.next-btn-container {
   width: 50%;
   height: 3rem;
   display: flex;
@@ -176,10 +182,9 @@ header {
     text-decoration: none;
     margin: 6px 0;
     padding: 10px 0;
+    color: #000723;
     cursor: pointer;
-  }
-  button:hover{
-    background-color: rgb(143, 93, 93);
+    display: none; // DISPLAY NONE FOR NOW
   }
 }
 
