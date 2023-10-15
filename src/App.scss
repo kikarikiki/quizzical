@@ -47,7 +47,7 @@ header {
   }
 }
 
-.box-decoration {
+_box-decoration {
 
 // NOTCHED
 //  border: 2px solid #fff;
@@ -96,6 +96,7 @@ header {
       background: linear-gradient(0deg, rgba(2,89,128,1) 0%, rgba(2,41,83,1) 19%, rgba(2,11,55,1) 34%, rgba(2,11,55,1) 63%, rgba(2,41,83,1) 85%, rgba(2,89,128,1) 100%);
       width: 80%;
       font-size: 1.3rem;
+      line-height: 1.5;
       text-align: center;
       padding: 20px 10px;
       border: 2px ridge #fff;
@@ -113,25 +114,25 @@ header {
 
   :nth-child(1) {
     :before {
-      content: "A: ";
+      content: "A:  ";
       color: #FEC355;
     }
   }
   :nth-child(2) {
     :before {
-      content: "B: ";
+      content: "B:  ";
       color: #FEC355;
     }
   }
   :nth-child(3) {
     :before {
-      content: "C: ";
+      content: "C:  ";
       color: #FEC355;
     }
   }
   :nth-child(4) {
     :before {
-      content: "D: ";
+      content: "D:  ";
       color: #FEC355;
     }
   }
@@ -184,7 +185,7 @@ header {
     padding: 10px 0;
     color: #000723;
     cursor: pointer;
-    display: none; // DISPLAY NONE FOR NOW
+    //display: none; // DISPLAY NONE FOR NOW
   }
 }
 
