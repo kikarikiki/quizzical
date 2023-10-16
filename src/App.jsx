@@ -1,49 +1,77 @@
 import React from "react";
 import {nanoid} from "nanoid"
+import {encode} from 'html-entities'
 import AnswerItem from './components/AnswerItem.jsx'
 import './App.scss'
-import { question } from "fontawesome";
 
 export default function App() {
 
   const api = "https://opentdb.com/api.php?amount=15&category=18&type=multiple"
 
+  const [allQuestions, setAllQuestions] = React.useState([])
 
   const [oneQuestion, setOneQuestion] = React.useState({
     question: "",
     correctAnswer: "",
-    incorrectAnswers: []
+    incorrectAnswers: [],
+    wasAsk: false
   })
 
-  const [allQuestions, setAllQuestions] = React.useState([])
+  //const [ask, setAsk] = React.useState([])
 
   React.useEffect(() => {
     async function getQuestions() {
         const res = await fetch(api)
         const data = await res.json()
-        setAllQuestions(data.results)
+        const results = data.results
+        // Update AllQuestions Array and add key:value-pair wasAsk: false
+        setAllQuestions(results.map(result => {
+          return { ...result, wasAsk: false }
+        }))
       }
       getQuestions()
     }, [])
 
+  // Helper Function wasAsk
+  // function wasAsk(id) {
+  //   setAllQuestions(prevQuestions => {
+  //     const newQuestions = []
+  //           for(let i = 0; i < prevQuestions.length; i++) {
+  //               const currentQuestion = prevQuestions[i]
+  //               if(currentQuestion.id === id) {
+  //                   const updatedQuestion = {
+  //                       ...currentQuestion,
+  //                       wasAsk: !currentQuestion.wasAsk
+  //                   }
+  //                   newQuestions.push(updatedQuestion)
+  //               } else {
+  //                   newQuestions.push(currentQuestion)
+  //               }
+  //           }
+  //           return newQuestions
+  //   })
+  // }
+
   // Get Question
   function getQuestion() {
-    // All
+    // All questions objects
     const questionsArray = allQuestions
-    // Random numbers of 15(total questions)
+    // Random numbersArr of 15 numbers (total questions.length)
     const randomNumber = Math.floor(Math.random() * questionsArray.length)
 
     const question = questionsArray[randomNumber].question
     const correct_answer = questionsArray[randomNumber].correct_answer
     const incorrect_answers = questionsArray[randomNumber].incorrect_answers
+    let wasAsk = questionsArray[randomNumber].wasAsk
 
-    // Set OneQuestion State Object to
+    // Set OneQuestion State-Object to
     setOneQuestion(prevQuestion => ({
       ...prevQuestion,
       id: nanoid(),
       question: question,
       correctAnswer: correct_answer,
-      incorrectAnswers: incorrect_answers
+      incorrectAnswers: incorrect_answers,
+      wasAsk: !wasAsk
     }))
   }
 
@@ -64,7 +92,7 @@ export default function App() {
           </div>
           {/* Questions Container */}
           <div className="deco-lines question-container">
-              <h1 id="display-question" className='box-decoration'>{oneQuestion.question}</h1>
+              <p id="display-question" className='box-decoration'>{encode(oneQuestion.question)}</p>
           </div>
           {/* Answers Container */}
           <ul className='answers-container'>
