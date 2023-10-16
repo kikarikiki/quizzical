@@ -8,16 +8,18 @@ export default function App() {
   const api = "https://opentdb.com/api.php?amount=15&category=18&type=multiple"
 
   const [allQuestions, setAllQuestions] = React.useState([])
-
   const [question, setQuestion] = React.useState({
     id: "",
     question: "...",
     correctAnswer: "...",
     incorrectAnswers: ["...","...","..."],
-    options: [],
+    allAnswers: [],
     selected: "",
     wasAsk:  false
   })
+  const [askedQuestions, setAskedQuestions] = React.useState([]);
+  const [isCorrect, setIsCorrect] = React.useState(null);
+
 
   // Combine Answers randomly
   function insertAtRandomIndex(arr, item) {
@@ -43,7 +45,7 @@ export default function App() {
             question: result.question,
             correctAnswer: result.correct_answer,
             incorrectAnswers: result.incorrect_answers,
-            options: allAnswersArray,
+            allAnswers: allAnswersArray,
             selected: "",
             id:nanoid(),
             wasAsk: false
@@ -53,30 +55,40 @@ export default function App() {
       getQuestions()
     }, [])
 
-  function getQuestion() {
-    const questionsElements = allQuestions
-    // Get Random Question Element
-    const randomNumber = Math.floor(Math.random() * questionsElements.length)
-    const currentQuestion = questionsElements[randomNumber]
+    function getQuestion() {
+      const unansweredQuestions = allQuestions.filter(
+        (q) => !askedQuestions.includes(q.id)
+      );
 
-    setQuestion(({
-        id: currentQuestion.id,
-        question: currentQuestion.question,
-        correctAnswer: currentQuestion.correct_answer,
-        incorrectAnswers: currentQuestion.incorrect_answers,
-        options: currentQuestion.options,
-        selected: false,
-        wasAsk: !currentQuestion.wasAsk
-    }))
-  }
+      if (unansweredQuestions.length > 0) {
+        const randomNumber = Math.floor(Math.random() * unansweredQuestions.length);
+        const currentQuestion = unansweredQuestions[randomNumber];
+        setAskedQuestions([...askedQuestions, currentQuestion.id]);
 
-  function selectAnswer(event) {
-    console.log(event.currentTarget)
-    // const {name, value,} = event.target
-    //  console.log(name,value)
-    //     setAllQuestions(prevData => prevData.map(elem => {
-    //       return elem.id===id ? {...elem,  selected:value} : elem
-    //    }))
+        setQuestion({
+          id: currentQuestion.id,
+          question: currentQuestion.question,
+          correctAnswer: currentQuestion.correctAnswer,
+          incorrectAnswers: currentQuestion.incorrectAnswers,
+          allAnswers: currentQuestion.allAnswers,
+          wasAsk: !currentQuestion.wasAsk,
+          selected: "",
+        });
+        setIsCorrect(null);
+      } else {
+        // Handle when all questions have been asked
+        console.log("finished")
+      }
+    }
+
+
+  function handleOptionSelect(selectedOption) {
+    const isCorrectAnswer = selectedOption === question.correctAnswer;
+    setIsCorrect(isCorrectAnswer);
+    setQuestion((prevQuestion) => ({
+      ...prevQuestion,
+      selected: selectedOption,
+    }));
   }
 
 
@@ -100,11 +112,9 @@ export default function App() {
             id={question.id}
             question={question.question}
             correctAnswer={question.correctAnswer}
-            incorrectAnswers={question.incorrectAnswers}
-            options={question.options}
-            selected={question.selected}
+            allAnswers={question.allAnswers}
             wasAsk={question.wasAsk}
-            handleClick={() => selectAnswer(question.options)}
+            handleSelect={handleOptionSelect}
           />
           <div className="next-btn-container">
               <a href="#" onClick={getQuestion}>Next Question</a>

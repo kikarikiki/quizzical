@@ -144,7 +144,7 @@ _box-decoration {
     margin: 6px 0;
     cursor: pointer;
 
-    span {
+    label {
       border: 2px ridge #fff;
       padding: 10px 0;
       width: 80%;
@@ -163,6 +163,12 @@ _box-decoration {
         background-color: rgb(250,182,101);
         background: linear-gradient(180deg, rgba(250,182,101,1) 0%, rgba(251,217,138,1) 14%, rgba(252,230,152,1) 29%, rgba(252,219,140,1) 79%, rgba(252,210,131,1) 90%, rgba(250,182,101,1) 100%);
         color: #000723;
+      }
+
+      input {
+        position: fixed;
+        opacity: 0;
+        pointer-events: none;
       }
     }
   }
@@ -225,9 +231,9 @@ _box-decoration {
 }
 
 .right-answer {
-
+  background-color: green; /* or any other color you prefer */
 }
 
 .wrong-answer {
-
+  background-color: red; /* or any other color you prefer */
 }
