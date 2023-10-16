@@ -1,7 +1,6 @@
-import React from "react";
+import React from "react"
 import {nanoid} from "nanoid"
-import {encode} from 'html-entities'
-import AnswerItem from './components/AnswerItem.jsx'
+import Question from './components/Question.jsx'
 import './App.scss'
 
 export default function App() {
@@ -10,70 +9,76 @@ export default function App() {
 
   const [allQuestions, setAllQuestions] = React.useState([])
 
-  const [oneQuestion, setOneQuestion] = React.useState({
-    question: "",
-    correctAnswer: "",
-    incorrectAnswers: [],
-    wasAsk: false
+  const [question, setQuestion] = React.useState({
+    id: "",
+    question: "...",
+    correctAnswer: "...",
+    incorrectAnswers: ["...","...","..."],
+    options: [],
+    selected: "",
+    wasAsk:  false
   })
 
-  //const [ask, setAsk] = React.useState([])
+  // Combine Answers randomly
+  function insertAtRandomIndex(arr, item) {
+    const copiedArr = [...arr]
+    const randomIndex = Math.floor(Math.random() * (copiedArr.length + 1));
+    copiedArr.splice(randomIndex, 0, item);
+    return copiedArr
+}
 
   React.useEffect(() => {
     async function getQuestions() {
         const res = await fetch(api)
         const data = await res.json()
         const results = data.results
-        // Update AllQuestions Array and add key:value-pair wasAsk: false
+
         setAllQuestions(results.map(result => {
-          return { ...result, wasAsk: false }
+          // Array of all answers
+          const incorrectAnswersArray = [...result.incorrect_answers];
+          const correctAnswer = result.correct_answer;
+          const allAnswersArray = insertAtRandomIndex(incorrectAnswersArray, correctAnswer);
+          // Return allQuestionsArray with updated key:values
+          return {
+            question: result.question,
+            correctAnswer: result.correct_answer,
+            incorrectAnswers: result.incorrect_answers,
+            options: allAnswersArray,
+            selected: "",
+            id:nanoid(),
+            wasAsk: false
+          }
         }))
       }
       getQuestions()
     }, [])
 
-  // Helper Function wasAsk
-  // function wasAsk(id) {
-  //   setAllQuestions(prevQuestions => {
-  //     const newQuestions = []
-  //           for(let i = 0; i < prevQuestions.length; i++) {
-  //               const currentQuestion = prevQuestions[i]
-  //               if(currentQuestion.id === id) {
-  //                   const updatedQuestion = {
-  //                       ...currentQuestion,
-  //                       wasAsk: !currentQuestion.wasAsk
-  //                   }
-  //                   newQuestions.push(updatedQuestion)
-  //               } else {
-  //                   newQuestions.push(currentQuestion)
-  //               }
-  //           }
-  //           return newQuestions
-  //   })
-  // }
-
-  // Get Question
   function getQuestion() {
-    // All questions objects
-    const questionsArray = allQuestions
-    // Random numbersArr of 15 numbers (total questions.length)
-    const randomNumber = Math.floor(Math.random() * questionsArray.length)
+    const questionsElements = allQuestions
+    // Get Random Question Element
+    const randomNumber = Math.floor(Math.random() * questionsElements.length)
+    const currentQuestion = questionsElements[randomNumber]
 
-    const question = questionsArray[randomNumber].question
-    const correct_answer = questionsArray[randomNumber].correct_answer
-    const incorrect_answers = questionsArray[randomNumber].incorrect_answers
-    let wasAsk = questionsArray[randomNumber].wasAsk
-
-    // Set OneQuestion State-Object to
-    setOneQuestion(prevQuestion => ({
-      ...prevQuestion,
-      id: nanoid(),
-      question: question,
-      correctAnswer: correct_answer,
-      incorrectAnswers: incorrect_answers,
-      wasAsk: !wasAsk
+    setQuestion(({
+        id: currentQuestion.id,
+        question: currentQuestion.question,
+        correctAnswer: currentQuestion.correct_answer,
+        incorrectAnswers: currentQuestion.incorrect_answers,
+        options: currentQuestion.options,
+        selected: false,
+        wasAsk: !currentQuestion.wasAsk
     }))
   }
+
+  function selectAnswer(event) {
+    console.log(event.currentTarget)
+    // const {name, value,} = event.target
+    //  console.log(name,value)
+    //     setAllQuestions(prevData => prevData.map(elem => {
+    //       return elem.id===id ? {...elem,  selected:value} : elem
+    //    }))
+  }
+
 
   return (
     <>
@@ -90,25 +95,17 @@ export default function App() {
               <h1>Score : <span id="player-score"></span> / 10</h1>
               <h1> Question : <span id="question-number"></span> / 10</h1>
           </div>
-          {/* Questions Container */}
-          <div className="deco-lines question-container">
-              <p id="display-question" className='box-decoration'>{encode(oneQuestion.question)}</p>
-          </div>
-          {/* Answers Container */}
-          <ul className='answers-container'>
-            <AnswerItem
-              key={oneQuestion.id}
-              id={oneQuestion.id}
-              correctAnswer={oneQuestion.correctAnswer}
-              incorrectAnswers={oneQuestion.incorrectAnswers}
-            />
-            {/*
-            <li className='deco-lines'><span className='box-decoration'>Option 1</span></li>
-            <li className='deco-lines'><span className='box-decoration'>Option 2</span></li>
-            <li className='deco-lines'><span className='box-decoration'>Option 3</span></li>
-            <li className='deco-lines'><span className='box-decoration'>Option 4</span></li>
-            */}
-          </ul>
+          <Question
+            key={question.id}
+            id={question.id}
+            question={question.question}
+            correctAnswer={question.correctAnswer}
+            incorrectAnswers={question.incorrectAnswers}
+            options={question.options}
+            selected={question.selected}
+            wasAsk={question.wasAsk}
+            handleClick={() => selectAnswer(question.options)}
+          />
           <div className="next-btn-container">
               <a href="#" onClick={getQuestion}>Next Question</a>
           </div>
