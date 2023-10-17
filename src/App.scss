@@ -17,6 +17,7 @@ main {
   align-items: center;
   background: rgb(0,43,156);
   background: radial-gradient(circle, rgba(0,43,156,1) 49%, rgba(0,43,156,1) 54%, rgba(0,7,35,1) 100%);
+  padding-bottom: 60px;
 }
 
 header {
@@ -25,19 +26,21 @@ header {
   h1 {
     font-size: 4rem;
     position: absolute;
+    z-index: 1;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 380px;
+    width: 390px;
     height: 5rem;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0px 3px 6px rgba(0,7,35,0.7);
+    text-shadow: 0px 3px 6px rgba(0,7,35,0.8);
     letter-spacing: 0.2rem;
   }
   .logo {
     width: 280px;
     height: 280px;
+    transform: scaleX(1.1);
     border: 3px solid #fff;
     border-radius: 50%;
     background-color: rgb(0, 7, 35);
@@ -49,7 +52,8 @@ header {
 
 .box-decoration {
   background: linear-gradient(0deg, rgba(2,161,219,0.25) 0%, rgba(8,9,111,1) 18%, rgba(3,8,64,1) 24%, rgba(0,7,35,1) 36%, rgba(2,7,53,1) 61%, rgba(7,9,99,1) 76%, rgba(8,9,111,1) 82%, rgba(2,167,223,0.25) 100%);
-      width: 80%;
+  width: 80%;
+  margin-bottom:4px;
 
 // NOTCHED
 //  border: 2px solid #fff;
@@ -68,19 +72,16 @@ header {
 
 .quiz-container {
   width: 40rem;
-  height: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-
   .game-details-container {
     width: 80%;
-    height: 4rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    display: none; // DISPLAY NONE FOR NOW
+    margin-bottom:24px;
     h1{
       font-size: 1.2rem;
     }
@@ -88,7 +89,6 @@ header {
 
   .question-container {
     width: 100%;
-    height: 6rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,8 +102,9 @@ header {
       line-height: 1.5;
       text-align: center;
       padding: 20px 20px;
-      border: 2px ridge #fff;
+      border: 3px ridge #fff;
       color: #FEC355;
+      margin-bottom:4px;
    }
   }
 }
@@ -114,11 +115,15 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 8px;
 
   :nth-child(1) {
     :before {
       content: "A:  ";
       color: #FEC355;
+    }
+    :hover:before {
+      color: #000723;
     }
   }
   :nth-child(2) {
@@ -126,17 +131,26 @@ header {
       content: "B:  ";
       color: #FEC355;
     }
+    :hover:before {
+      color: #000723;
+    }
   }
   :nth-child(3) {
     :before {
       content: "C:  ";
       color: #FEC355;
     }
+    :hover:before {
+      color: #000723;
+    }
   }
   :nth-child(4) {
     :before {
       content: "D:  ";
       color: #FEC355;
+    }
+    :hover:before {
+      color: #000723;
     }
   }
 
@@ -183,18 +197,15 @@ header {
 }
 
 .next-btn-container {
-  width: 50%;
-  height: 3rem;
   display: flex;
   justify-content: center;
+  padding: 12px 24px;
+  border-radius: 6px;
 
   a {
     text-decoration: none;
-    margin: 6px 0;
-    padding: 10px 0;
-    color: #000723;
+    color: #fff;
     cursor: pointer;
-    //display: none; // DISPLAY NONE FOR NOW
   }
 }
 
