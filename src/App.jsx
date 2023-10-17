@@ -17,10 +17,8 @@ export default function App() {
   })
   const [askedQuestions, setAskedQuestions] = React.useState([])
   const [isCorrect, setIsCorrect] = React.useState(null)
-  const [isAnswered, setIsSelected] = React.useState(false)
 
   const score = [0, "100", "200", "300", "500", "1.000", "2.000", "4.000", "8.000", "16.000", "32.000", "64.000", "125.000", "250.000", "500.000", "1.00000"]
-  console.log(score[askedQuestions.length])
 
 
   // Combine Answers randomly
@@ -87,13 +85,12 @@ export default function App() {
 
   function handleOptionSelect(selectedOption) {
     const isCorrectAnswer = selectedOption === question.correctAnswer;
-    setIsCorrect(isCorrectAnswer);
+    setIsCorrect(isCorrectAnswer)
     setQuestion((prevQuestion) => ({
       ...prevQuestion,
-      selected: selectedOption,
+      selected: selectedOption
     }));
   }
-  console.log(question)
 
 
   return (
@@ -120,6 +117,7 @@ export default function App() {
             wasAsk={question.wasAsk}
             handleSelect={handleOptionSelect}
             isCorrect={isCorrect}
+            selected={question.selected}
           />
           <div className="next-btn-container">
               <a href="#" onClick={getQuestion}>Next Question</a>

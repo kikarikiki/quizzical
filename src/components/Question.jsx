@@ -7,35 +7,37 @@ export default function Question(props) {
   }
 
   const displayAnswers = props.allAnswers.map((answer, index) => {
-    // Initiate unique Id for each input element
-    const answerId = `answer-${index}`
-    // Determine if the current answer is correct
-    const isCorrectAnswer = decode(answer) === props.correctAnswer;
-    // Determine if the current answer is the selected answer
-    const isSelectedAnswer = answer === props.selected;
-    // Determine the CSS class based on correctness and selection
-    let className = "box-decoration"
-    if (props.isCorrect && isCorrectAnswer) {
-      className += " right-answer"
-    } else if (isSelectedAnswer && !isCorrectAnswer) {
-      className += " wrong-answer"
+    // Initiate unique Id for each answer-element
+    const answerId = `answer-${index}`;
+    // Styling change
+    const inlineStyle = {background: `linear-gradient(rgba(19,219,2,1) 0%, rgba(10,144,17,1) 13%, rgba(5,87,5,1) 38%, rgba(9,79,4,1) 51%, rgba(13,84,5,1) 58%, rgba(10,128,16,1) 81%, rgba(19,219,2,1) 100%)`}
+    let className = "box-decoration";
+    if (props.isCorrect && decode(answer) === props.correctAnswer) {
+      className += " right-answer";
+    } else if (!props.isCorrect && decode(answer) === props.selected) {
+      className += " wrong-answer";
+
     }
 
-      return (
-        <li key={index} className='deco-lines'>
-          <label htmlFor={answerId} className={className}>
-            <input
-              type='radio'
-              id={answerId}
-              name={answer}
-              value={decode(answer)}
-              onChange={handleOptionChange}
-              checked={answer === props.selected}
-            />
-            {decode(answer)}
-          </label>
-        </li>
-      );
+    return (
+      <li key={index} className='deco-lines'>
+        <label
+          htmlFor={answerId}
+          className={className}
+          style={answer === props.correctAnswer ? {inlineStyle} : null }
+          >
+          <input
+            type='radio'
+            id={answerId}  // Set unique id for each input element
+            name={answer}
+            value={decode(answer)}
+            onChange={handleOptionChange}
+            checked={answer === props.selected}
+          />
+          {decode(answer)}
+        </label>
+      </li>
+    );
   });
 
   return (
