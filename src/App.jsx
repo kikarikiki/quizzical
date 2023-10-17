@@ -12,7 +12,6 @@ export default function App() {
     id: "",
     question: "...",
     correctAnswer: "...",
-    incorrectAnswers: ["...","...","..."],
     allAnswers: [],
     selected: "",
     wasAsk:  false
@@ -44,7 +43,6 @@ export default function App() {
           return {
             question: result.question,
             correctAnswer: result.correct_answer,
-            incorrectAnswers: result.incorrect_answers,
             allAnswers: allAnswersArray,
             selected: "",
             id:nanoid(),
@@ -69,7 +67,6 @@ export default function App() {
           id: currentQuestion.id,
           question: currentQuestion.question,
           correctAnswer: currentQuestion.correctAnswer,
-          incorrectAnswers: currentQuestion.incorrectAnswers,
           allAnswers: currentQuestion.allAnswers,
           wasAsk: !currentQuestion.wasAsk,
           selected: "",
@@ -84,12 +81,14 @@ export default function App() {
 
   function handleOptionSelect(selectedOption) {
     const isCorrectAnswer = selectedOption === question.correctAnswer;
+    console.log(isCorrectAnswer)
     setIsCorrect(isCorrectAnswer);
     setQuestion((prevQuestion) => ({
       ...prevQuestion,
       selected: selectedOption,
     }));
   }
+  console.log(question)
 
 
   return (
@@ -115,6 +114,7 @@ export default function App() {
             allAnswers={question.allAnswers}
             wasAsk={question.wasAsk}
             handleSelect={handleOptionSelect}
+            isCorrect={isCorrect}
           />
           <div className="next-btn-container">
               <a href="#" onClick={getQuestion}>Next Question</a>
