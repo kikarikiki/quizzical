@@ -18,7 +18,23 @@ export default function App() {
   const [askedQuestions, setAskedQuestions] = React.useState([])
   const [isCorrect, setIsCorrect] = React.useState(null)
 
-  const score = [0, "100", "200", "300", "500", "1.000", "2.000", "4.000", "8.000", "16.000", "32.000", "64.000", "125.000", "250.000", "500.000", "1.00000"]
+  const score = [
+    {value: "100", milestone: true},
+    {value: "200", milestone: false},
+    {value: "300", milestone: false},
+    {value: "500", milestone: false},
+    {value: "1.000", milestone: true},
+    {value: "2.000", milestone: false},
+    {value: "4.000", milestone: false},
+    {value: "8.000", milestone: false},
+    {value: "16.000", milestone: false},
+    {value: "32.000", milestone: true},
+    {value: "64.000", milestone: false},
+    {value: "125.000", milestone: false},
+    {value: "250.000", milestone: false},
+    {value: "500.000", milestone: false},
+    {value: "1.000.000", milestone: true}
+  ]
 
 
   // Combine Answers randomly
@@ -105,7 +121,7 @@ export default function App() {
         <div className="quiz-container">
           {/* Game Details */}
           <div className="game-details-container">
-              <h1>Score : $<span id="player-score"></span> {score[askedQuestions.length]}</h1>
+              <h1>Score :<span id="player-score" style={score[askedQuestions.length].milestone ? {color: `#FEC355`} : null }> ${score[askedQuestions.length].value}</span></h1>
               <h1> Question : <span id="question-number"></span> {askedQuestions.length} / {allQuestions.length} </h1>
           </div>
           <Question
