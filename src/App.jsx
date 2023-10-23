@@ -1,5 +1,8 @@
 import React from "react"
 import {nanoid} from "nanoid"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import Question from './components/Question.jsx'
 import './App.scss'
 
@@ -121,8 +124,8 @@ export default function App() {
         <div className="quiz-container">
           {/* Game Details */}
           <div className="game-details-container">
-              <h1>Score :<span id="player-score" style={score[askedQuestions.length].milestone ? {color: `#FEC355`} : null }> ${score[askedQuestions.length].value}</span></h1>
-              <h1> Question : <span id="question-number"></span> {askedQuestions.length} / {allQuestions.length} </h1>
+              <h1><span id="player-score" style={score[askedQuestions.length].milestone ? {color: `#FEC355`} : null }>  ${score[askedQuestions.length].value}</span></h1>
+              <h1><span id="question-number">{askedQuestions.length} / {allQuestions.length}</span></h1>
           </div>
           <Question
             key={question.id}
