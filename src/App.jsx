@@ -85,9 +85,9 @@ export default function App() {
       );
 
       if (unansweredQuestions.length > 0) {
-        const randomNumber = Math.floor(Math.random() * unansweredQuestions.length);
-        const currentQuestion = unansweredQuestions[randomNumber];
-        setAskedQuestions([...askedQuestions, currentQuestion.id]);
+        const randomNumber = Math.floor(Math.random() * unansweredQuestions.length)
+        const currentQuestion = unansweredQuestions[randomNumber]
+        setAskedQuestions([...askedQuestions, currentQuestion.id])
 
         setQuestion({
           id: currentQuestion.id,
@@ -111,7 +111,7 @@ export default function App() {
     setQuestion((prevQuestion) => ({
       ...prevQuestion,
       selected: selectedOption
-    }));
+    }))
   }
 
 
@@ -125,13 +125,15 @@ export default function App() {
         {
           start
           ?
-          <div className="quiz-container">
-            <p>you want to be a quizzionaire? Put you knowledge to the test!</p>
-            <div className="btn-container">
+          // Code for the start screen
+          <div className="start-screen-container">
+            <p>you want to be a quizzionaire?</p><p>Put you knowledge to the test!</p>
+            <div className="btn">
                 <a href="#" onClick={getQuestion}>Start</a>
             </div>
           </div>
           :
+          // Code for the active game screen
           <div className="quiz-container">
             <div className="game-details-container">
                 <h1><span id="player-score" style={score[askedQuestions.length].milestone ? {color: `#FEC355`} : null }>  ${score[askedQuestions.length].value}</span></h1>
@@ -148,15 +150,16 @@ export default function App() {
               isCorrect={isCorrect}
               selected={question.selected}
             />
-            {
-              question.selected !== "" && question.selected === question.correctAnswer
-            ?
-              <div className="next-btn-container">
-                  <a href="#" onClick={getQuestion}>Next Question</a>
+            {/* Conditional rendering of buttons */}
+            {question.selected === "" ? null : question.selected === question.correctAnswer ? (
+              <div className="btn">
+                <a className="start-button" onClick={getQuestion}>Next Question</a>
               </div>
-            :
-            null
-            }
+            ) : (
+              <div className="btn">
+                <a className="restart-button" onClick={getQuestion}>Restart</a>
+              </div>
+            )}
           </div>
         }
       </main>
