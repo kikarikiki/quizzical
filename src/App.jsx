@@ -1,8 +1,8 @@
 import React from "react"
 import {nanoid} from "nanoid"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoins } from "@fortawesome/free-solid-svg-icons";
-import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//import { faCoins } from "@fortawesome/free-solid-svg-icons";
+//import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import Question from './components/Question.jsx'
 import './App.scss'
 
@@ -20,8 +20,10 @@ export default function App() {
   })
   const [askedQuestions, setAskedQuestions] = React.useState([])
   const [isCorrect, setIsCorrect] = React.useState(null)
+  const [start, setStart] = React.useState(true)
 
   const score = [
+    {value: "0", milestone: true},
     {value: "100", milestone: true},
     {value: "200", milestone: false},
     {value: "300", milestone: false},
@@ -77,6 +79,7 @@ export default function App() {
     }, [])
 
     function getQuestion() {
+      setStart(false)
       const unansweredQuestions = allQuestions.filter(
         (q) => !askedQuestions.includes(q.id)
       );
@@ -115,33 +118,47 @@ export default function App() {
   return (
     <>
       <main>
-        {/* Logo Container */}
         <header>
           <h1>Quizzical</h1>
           <img src="./src/assets/react.svg" alt="" className="logo"/>
         </header>
-        {/* Quiz Container */}
-        <div className="quiz-container">
-          {/* Game Details */}
-          <div className="game-details-container">
-              <h1><span id="player-score" style={score[askedQuestions.length].milestone ? {color: `#FEC355`} : null }>  ${score[askedQuestions.length].value}</span></h1>
-              <h1><span id="question-number">{askedQuestions.length} / {allQuestions.length}</span></h1>
+        {
+          start
+          ?
+          <div className="quiz-container">
+            <p>you want to be a quizzionaire? Put you knowledge to the test!</p>
+            <div className="btn-container">
+                <a href="#" onClick={getQuestion}>Start</a>
+            </div>
           </div>
-          <Question
-            key={question.id}
-            id={question.id}
-            question={question.question}
-            correctAnswer={question.correctAnswer}
-            allAnswers={question.allAnswers}
-            wasAsk={question.wasAsk}
-            handleSelect={handleOptionSelect}
-            isCorrect={isCorrect}
-            selected={question.selected}
-          />
-          <div className="next-btn-container">
-              <a href="#" onClick={getQuestion}>Next Question</a>
+          :
+          <div className="quiz-container">
+            <div className="game-details-container">
+                <h1><span id="player-score" style={score[askedQuestions.length].milestone ? {color: `#FEC355`} : null }>  ${score[askedQuestions.length].value}</span></h1>
+                <h1><span id="question-number">{askedQuestions.length} / {allQuestions.length}</span></h1>
+            </div>
+            <Question
+              key={question.id}
+              id={question.id}
+              question={question.question}
+              correctAnswer={question.correctAnswer}
+              allAnswers={question.allAnswers}
+              wasAsk={question.wasAsk}
+              handleSelect={handleOptionSelect}
+              isCorrect={isCorrect}
+              selected={question.selected}
+            />
+            {
+              question.selected !== "" && question.selected === question.correctAnswer
+            ?
+              <div className="next-btn-container">
+                  <a href="#" onClick={getQuestion}>Next Question</a>
+              </div>
+            :
+            null
+            }
           </div>
-        </div>
+        }
       </main>
     </>
   )
