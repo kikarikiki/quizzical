@@ -14,6 +14,8 @@ export default function App() {
     selected: "",
     wasAsk:  false
   })
+
+  // State of asked Questions && rounds
   const [askedQuestions, setAskedQuestions] = React.useState([])
   const [isCorrect, setIsCorrect] = React.useState(null)
   const [start, setStart] = React.useState(true)
@@ -85,7 +87,6 @@ export default function App() {
       if (unansweredQuestions.length > 0) {
         const randomNumber = Math.floor(Math.random() * unansweredQuestions.length)
         const randomQuestion = unansweredQuestions[randomNumber]
-        setAskedQuestions([...askedQuestions, {...randomQuestion, wasAsk: true}])
 
         setQuestion({
           id: randomQuestion.id,
@@ -94,7 +95,10 @@ export default function App() {
           allAnswers: randomQuestion.allAnswers,
           wasAsk: !randomQuestion.wasAsk,
           selected: "",
+          givenAnswer: null
         })
+
+        setAskedQuestions([...askedQuestions, {...randomQuestion, wasAsk: true}])
         setIsCorrect(null);
         //wasAsk(question.id)
 
@@ -104,10 +108,11 @@ export default function App() {
       }
     }
 
-    // Handle update -wasAsk- on allQuestions
+    // Handle givenAnswer on askedQuestion && update -wasAsk- on allQuestions
     React.useEffect(()=>{
       setAllQuestions(prevQuestions => prevQuestions.map(q => q.id === question.id ? {...q, wasAsk: question.wasAsk} : q))
-    }, [question])
+      setAskedQuestions(prevAskQ => prevAskQ.map(q => q.id === question.id ? {...q, givenAnswer: isCorrect} : q))
+    }, [question, isCorrect])
 
 
     function handleOptionSelect(selectedOption) {
@@ -115,16 +120,17 @@ export default function App() {
       setIsCorrect(isCorrectAnswer)
       setQuestion((prevQuestion) => ({
         ...prevQuestion,
-        selected: selectedOption
+        selected: selectedOption,
+        givenAnswer: isCorrectAnswer
       }))
     }
 
-    function restartGame() {
+    /* function restartGame() {
       setAskedQuestions([])
       setAllQuestions([])
       setRestart(prevState => !prevState)
       getQuestion()
-    }
+    } */
 
 
   return (
