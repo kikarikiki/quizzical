@@ -11,6 +11,7 @@ export default function Question(props) {
   // Disabled State
   const[isDisabled, setIsDisabled] = React.useState(false)
 
+  // Handle selection of an answer
   function handleOptionChange(event) {
     props.handleSelect(event.target.value);
     setAnswerSelected(true)

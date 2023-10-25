@@ -1,13 +1,9 @@
 import React from "react"
 import {nanoid} from "nanoid"
-//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { faCoins } from "@fortawesome/free-solid-svg-icons";
-//import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import Question from './components/Question.jsx'
 import './App.scss'
 
 export default function App() {
-
 
   const [allQuestions, setAllQuestions] = React.useState([])
   const [question, setQuestion] = React.useState({
@@ -21,6 +17,7 @@ export default function App() {
   const [askedQuestions, setAskedQuestions] = React.useState([])
   const [isCorrect, setIsCorrect] = React.useState(null)
   const [start, setStart] = React.useState(true)
+  const [restart, setRestart] = React.useState(false)
 
   const score = [
     {value: "0", milestone: true},
@@ -76,43 +73,58 @@ export default function App() {
         }))
       }
       getQuestions()
-    }, [])
+    }, [restart])
 
+    // Get question from allQuestions Arr
     function getQuestion() {
+      console.log(allQuestions)
+      console.log(askedQuestions)
       setStart(false)
-      const unansweredQuestions = allQuestions.filter(
-        (q) => !askedQuestions.includes(q.id)
-      );
+      const unansweredQuestions = allQuestions.filter(q => q.wasAsk === false);
 
       if (unansweredQuestions.length > 0) {
         const randomNumber = Math.floor(Math.random() * unansweredQuestions.length)
-        const currentQuestion = unansweredQuestions[randomNumber]
-        setAskedQuestions([...askedQuestions, currentQuestion.id])
+        const randomQuestion = unansweredQuestions[randomNumber]
+        setAskedQuestions([...askedQuestions, {...randomQuestion, wasAsk: true}])
 
         setQuestion({
-          id: currentQuestion.id,
-          question: currentQuestion.question,
-          correctAnswer: currentQuestion.correctAnswer,
-          allAnswers: currentQuestion.allAnswers,
-          wasAsk: !currentQuestion.wasAsk,
+          id: randomQuestion.id,
+          question: randomQuestion.question,
+          correctAnswer: randomQuestion.correctAnswer,
+          allAnswers: randomQuestion.allAnswers,
+          wasAsk: !randomQuestion.wasAsk,
           selected: "",
-        });
+        })
         setIsCorrect(null);
+        //wasAsk(question.id)
+
       } else {
         // Start new game
         console.log("finished")
       }
     }
 
+    // Handle update -wasAsk- on allQuestions
+    React.useEffect(()=>{
+      setAllQuestions(prevQuestions => prevQuestions.map(q => q.id === question.id ? {...q, wasAsk: question.wasAsk} : q))
+    }, [question])
 
-  function handleOptionSelect(selectedOption) {
-    const isCorrectAnswer = selectedOption === question.correctAnswer;
-    setIsCorrect(isCorrectAnswer)
-    setQuestion((prevQuestion) => ({
-      ...prevQuestion,
-      selected: selectedOption
-    }))
-  }
+
+    function handleOptionSelect(selectedOption) {
+      const isCorrectAnswer = selectedOption === question.correctAnswer;
+      setIsCorrect(isCorrectAnswer)
+      setQuestion((prevQuestion) => ({
+        ...prevQuestion,
+        selected: selectedOption
+      }))
+    }
+
+    function restartGame() {
+      setAskedQuestions([])
+      setAllQuestions([])
+      setRestart(prevState => !prevState)
+      getQuestion()
+    }
 
 
   return (
@@ -157,7 +169,7 @@ export default function App() {
               </div>
             ) : (
               <div className="btn">
-                <a className="restart-button" onClick={getQuestion}>Restart</a>
+                <a className="restart-button" onClick={getQuestion}>Next Question</a>
               </div>
             )}
           </div>
